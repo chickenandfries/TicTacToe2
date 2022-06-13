@@ -62,11 +62,85 @@ const PlayerFactory = function(number,token) {
 
 const Game = (function() {
     const playerOne = PlayerFactory('playerOne', 'X');
-    const playerTwo = PlayerFactory('playerTwo', 'X'); 
-    let ci
+    const playerTwo = PlayerFactory('playerTwo', 'O'); 
+
+    let currentPlayer = ['one'];
+
+
+    ////where should playerToggle reside? this will happen more than once 
+    const playerToggle = function() {
+        if (currentPlayer.includes('one')) {
+            currentPlayer = ['two']     
+            
+        }   else if (currentPlayer.includes('two')) {
+            currentPlayer =['one']
+        }
+    }
+
+    
+
+    ////GameBoard module...
+    const GameBoard = (function() {
+
+        
+        let gameBoard = [];
+        
+        ////creating each cell of gameBoard 
+        const GameBoardCell = function(cellNum) {
+            return {cellNum}
+        }
+
+        ////populating gameBoard with 9 cells total
+        for (let i = 0; i<=8; i++) {
+            const cell = GameBoardCell(`${i}`)
+            gameBoard.push(cell)
+        }        
+
+        return {gameBoard}        
+        
+    })();
+
+  
+
+    ////DisplayController module...
+    const DisplayController = (function() {
+        const gameBoardDisplay = document.querySelector('.gameBoardDisplay')
+
+        ////associating each 'cell' of gameBoard from `gameBoard` with a div for DOM. add class of `cell` to manipulate in css
+        const setUp = (function() {
+            // let i = 0;
+            for (let element of GameBoard.gameBoard) {
+                let cell = document.createElement('div');
+                cell.classList.add('cell');
+                // cell.id = `${i}`;
+                // i++;
+                gameBoardDisplay.appendChild(cell)
+                
+                
+                
+            }
+
+            // gameBoardDisplay.appendChild(GameBoard.gameBoard)
+
+        })();
+
+        return {}
+    })();
+    
+    
+
 
 
     
 
 
 })();
+
+
+
+/*QUESTIONS
+1. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
+
+2. 
+
+*/
