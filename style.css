@@ -10,7 +10,7 @@ body {
 }
 
 
-.gameBoard {
+.gameBoardDisplay {
     width: 600px;
     height: 600px;
     display: grid;
@@ -23,7 +23,7 @@ body {
 
 
 
-.cell {
+.cellDisplay {
     border: solid 2px white;
     display: flex;
     align-items: center;
