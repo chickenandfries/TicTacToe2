@@ -31,30 +31,39 @@ const Game = (function(){
 */
 
 
-let testing = [1,3,5]
-
-console.log(testing.some(item => item>5.1));
-
-
-
-
-const PlayerFactory = function(number,playerToken) {
-
-    return {number, playerToken}
-
-
+const PlayerFactory = function(number,playerToken, customName) {
+    return {number, playerToken, customName}
 }
 
 
 
 ///////////////GameBoard and DisplayController inside Game.... 
 const Game = (function() {
-    const display = document.querySelector('.display');
+    const hiddenDisplay = document.querySelector('.hiddenDisplay');
     const outcome = document.querySelector('.outcome');
-    const restartButton = document.querySelector('.restart')
-    let gameOver = [];
+    const restartButton = document.querySelector('.restart');
+    const gameBoardDisplay = document.querySelector('.gameBoardDisplay')
+
+
     const playerOne = PlayerFactory('playerOne', 'X');
     const playerTwo = PlayerFactory('playerTwo', 'O'); 
+    
+    ////if players want to add custom names 
+    const customNameSubmit = document.querySelector('.customNameSubmit');
+    customNameSubmit.addEventListener('click', function() {
+        playerOne.customName = document.querySelector('#playerOneCustomName').value;
+        playerTwo.customName = document.querySelector('#playerTwoCustomName').value;
+        document.querySelector('#playerOneCustomName').value ='';
+        document.querySelector('#playerTwoCustomName').value ='';
+
+    })    
+
+
+
+    console.log(playerOne);
+    console.log(playerTwo);
+    
+    
 
     
 
@@ -82,8 +91,6 @@ const Game = (function() {
             currentPlayer =['one']
         }
     }
-
-    
   
 
     ////GameBoard module...
@@ -106,62 +113,38 @@ const Game = (function() {
    
         
         
-        return {gameBoard}        
+        return {gameBoard, GameBoardCell}        
         
     })();
-    console.log(GameBoard.gameBoard);
-    console.log(GameBoard.gameBoard[1].playerToken !== undefined);
-    
+
   
- 
 
     ////DisplayController module...
-    const DisplayController = (function() {
-
-        const gameBoardDisplay = document.querySelector('.gameBoardDisplay')
-
-
-         ////associating each 'cell' of gameBoard from `gameBoard` with a div for DOM. add class of `cell` to add styling in css
-
+    const DisplayController = (function() {        
         
+
+         ////associating each 'cell' of gameBoard from `gameBoard` with a div for DOM. add class of `cell` to add styling in css       
         for (let i=0; i<=8; i++) {
                         
             let cellDisplay = document.createElement('div');
             cellDisplay.classList.add('cellDisplay');
             cellDisplay.id = `${i}`;
-            gameBoardDisplay.appendChild(cellDisplay);
-          
-            
-           
+            gameBoardDisplay.appendChild(cellDisplay);           
         }
-
         const cellDisplays = document.querySelectorAll('.cellDisplay')
-
-        for (let cellDisplay of cellDisplays) {
-            console.log(cellDisplay);
-            
-        }
-
-        return {gameBoardDisplay, cellDisplays} 
-
-        
-        
+        return {gameBoardDisplay, cellDisplays}        
 
     })();
 
+
     ////function for clicking each grid/cell of gameBoard 
     const clickCellDisplay = function() {
-        console.log(`click event initiating`);
-        console.log(this.id);
-             
 
         ////if cell is already clicked on, return
         for (let x of GameBoard.gameBoard) {
             if (this.id === x.cellNum) {                
                 if (x.playerToken !== undefined) {
                         console.log(`returning cuz already marked`);
-                    
-                    
                     return 
                 }
             }
@@ -212,8 +195,47 @@ const Game = (function() {
     for (let cellDisplay of DisplayController.cellDisplays) {
         cellDisplay.addEventListener('click', clickCellDisplay)
     }
+
+    ////function for restarting game 
+    const restartGame = function() {
+        ////clear & set up GameBoard array 
+        GameBoard.gameBoard = [];
+        ////populating gameBoard with 9 cells total
+        for (let i = 0; i<=8; i++) {
+            const cell = GameBoard.GameBoardCell(`${i}`)
+            GameBoard.gameBoard.push(cell)
+        }   
+
+        ////clear displayController
+        while (gameBoardDisplay.firstChild) {
+            gameBoardDisplay.removeChild(gameBoardDisplay.lastChild)
+        }
+
+        ////setting up display 
+        for (let i=0; i<=8; i++) {
+                        
+            let cellDisplay = document.createElement('div');
+            cellDisplay.classList.add('cellDisplay');
+            cellDisplay.id = `${i}`;
+            gameBoardDisplay.appendChild(cellDisplay);           
+        }
+
+        const cellDisplays = document.querySelectorAll('.cellDisplay')
+
+
+        for (let cellDisplay of cellDisplays) {
+            cellDisplay.addEventListener('click', clickCellDisplay)
+        }
+
+        ////hide display
+        hiddenDisplay.style.display = 'none';
+        
+    }
+    restartButton.addEventListener('click', restartGame)
     
     
+    
+
 
     ////checking to see if next round is valid
     const nextRoundValid = function() {
@@ -223,11 +245,8 @@ const Game = (function() {
         }
         console.log(validCheckArray);
         
-
-        return validCheckArray.some(item => item === undefined) 
-            
-        
-        
+        ////if at least one item.playerToken hasn't been assigned yet, next round is valid
+        return validCheckArray.some(item => item === undefined)         
     }
 
 
@@ -320,41 +339,36 @@ const Game = (function() {
 
         }
 
+        ////if finalArray has playerOne, player one wins 
         if (finalArray.includes(`${playerOne.number}`)) {
             console.log(`playerOne won confirmation`);
-            
-            display.style.display = "flex";
-            outcome.textContent += `${playerOne.number} won!`
-            gameOver.push('x')
+            hiddenDisplay.style.display = "flex";
+            if (playerOne.customName !== undefined) {
+                outcome.textContent = `${playerOne.customName} won!`
+            }   else {
+                outcome.textContent = `${playerOne.number} won!`
+            }
+
             return `${playerOne.number} won!`
         }   else if (finalArray.includes(`${playerTwo.number}`)) {
-            display.style.display = "flex";
-            outcome.textContent += `${playerTwo.number} won!`
-            gameOver.push('x')
+            hiddenDisplay.style.display = "flex";
+            if (playerTwo.customName !== undefined) {
+                outcome.textContent = `${playerTwo.customName} won!`
+            }   else {
+                outcome.textContent = `${playerTwo.number} won!`
+            }
+
             return `${playerTwo.number} wins!`
         }   else if (nextRoundValid() === false)  {
             console.log(`all out of cells`);
-            display.style.display = "flex";
-            outcome.textContent +="it's a tie!"
-            gameOver.push('x')
+            hiddenDisplay.style.display = "flex";
+            outcome.textContent ="it's a tie!"
+     
             return `it's a tie! `
         }
-
-
-
-
-        
-        
-
-
-
         
     }
 
-
-
-
-  
     ////making sure that even though Game is a IIFE Module, I can keep using testButton. But why does this work? 
     const testButton = document.querySelector('.testButton')
 
@@ -365,20 +379,33 @@ const Game = (function() {
 
     testButton.addEventListener(`click`, printButt )
 
-
-    
-
-
-    
-    // const nextRoundValid = function() {
-    //     for (let cell of )
-    // }
-
     return {}
       
 
 
 })();
+
+
+
+/*QUESTIONS
+0. point of having array in gameBoard? could have just used displayController (just work with .textContent to visual DOM elements )
+
+1. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
+    e.g. playerToggle
+2. why did I even need playerOne and playerTwo? could have just used gameBoard and displayController and 'printed' results after
+3. best way to set up restartGame? couldn't just bring in GameBoard and DisplayController because they only run once. ended up copying code over which doesn't seem right?
+
+*/
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -494,20 +521,3 @@ const Game = (function() {
 
 
 // })();
-
-
-
-/*QUESTIONS
-0. point of having array in gameBoard? could have just used displayController (just work with .textContent to visual DOM elements )
-
-1. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
-    e.g. playerToggle
-
-2. setUp() function to be inside DisplayController? or just have DisplayController ru
-
-
-3. testButton... why does this work repetedly when it's inside of Game and Game is a module? 
-
-4. why did I even need playerOne and playerTwo? could have just used gameBoard and displayController and 'printed' results after
-
-*/

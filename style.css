@@ -9,15 +9,30 @@ body {
     color: white;
 }
 
+.userCustomNameInput {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.customNameSubmit {
+    width: 75px;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+
+.pOne, .pTwo {
+    color: white;
+}
 
 .gameBoardDisplay {
     width: 600px;
     height: 600px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-
-    
+    grid-template-rows: 1fr 1fr 1fr;    
 
 }
 
@@ -34,24 +49,33 @@ body {
 
 }
 
-.display {
-    background-color: blue;
-    width: 300px;
-    height: 300px;
+.hiddenDisplay {
+    background-color: #d6d6d7;
+    width: 250px;
+    height: 250px;
     display: none;
     flex-direction: column;
     position: absolute;
+    justify-content: center;
+    align-items: center;
     top: 10rem;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 25px
     
-    
-    
+
+
+}
+
+.hiddenDisplay .outcome {
+    font-size: 2rem;
     
 }
 
-.display .outcome {
-    background-color: yellow;
-    
+.restart {
+    width: 150px;
 }
+
 
 /* button {
     all:unset;
