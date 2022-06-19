@@ -2,8 +2,6 @@
 
 /*GAME LOGIC
 
-
-
 const PlayerFactory = function(){
   //do the factory code here
   //this is not a module, regular 'factory' that I can call over and over 
@@ -388,136 +386,18 @@ const Game = (function() {
 
 
 /*QUESTIONS
-0. point of having array in gameBoard? could have just used displayController (just work with .textContent to visual DOM elements )
 
-1. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
-    e.g. playerToggle
-2. why did I even need playerOne and playerTwo? could have just used gameBoard and displayController and 'printed' results after
+Background: factory function called PlayerFactory that makes players. 
+Module function called Game that is like the 'manager'. 
+
+
+1. point of having array in gameBoard? could have just used displayController (just work with .textContent to visual DOM elements )
+
+2. associated array from GameBoard with the visual 'divs' in my DOM by matching the 'id' of div to cellNum associated with GameBoard array. which means each time the cell is clicked my code loops through the GameBoard array. Is there a better / more efficient way? I don't know how intensive the loops are, but it just seems wasteful?
+
 3. best way to set up restartGame? couldn't just bring in GameBoard and DisplayController because they only run once. ended up copying code over which doesn't seem right?
 
+4. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
+    e.g. playerToggle
+    
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////Game object is outside......
-
-// ////GameBoard module...
-// const GameBoard = (function() {
-  
-//     let gameBoard = [];
-    
-//     ////creating each cell of gameBoard 
-//     const GameBoardCell = function(cellNum, playerToken) {
-        
-//         return {cellNum, playerToken}
-//     }
-
-//     ////populating gameBoard with 9 cells total
-//     for (let i = 0; i<=8; i++) {
-//         const cell = GameBoardCell(`${i}`)
-//         gameBoard.push(cell)
-//     }        
-
-    
-  
-    
-
-//     return {gameBoard}        
-    
-// })();
-
-
-
-// ////DisplayController module...
-// const DisplayController = (function() {
-
-//     const gameBoardDisplay = document.querySelector('.gameBoardDisplay')
-//         ////associating each 'cell' of gameBoard from `gameBoard` with a div for DOM. add class of `cell` to add styling in css
-//     for (let cell of GameBoard.gameBoard) {
-//         console.log(cell);
-        
-//         const cellDisplay = document.createElement('div');
-//         cellDisplay.classList.add('cellDisplay');
-//         gameBoardDisplay.appendChild(cellDisplay)
-        
-//     }
-
-
-//     return {gameBoardDisplay, }
-// })();
-
-
-
-// ////Game manager object 
-// const Game = (function() {
-//     const playerOne = PlayerFactory('playerOne', 'X');
-//     const playerTwo = PlayerFactory('playerTwo', 'O'); 
-
-//     ////playerToggle will run the first time and switch currentPlayer to 'one' in the beginning
-//     let currentPlayer = ['two'];
-
-//     ////where should playerToggle reside? this will happen more than once 
-//     const playerToggle = function() {
-//         if (currentPlayer.includes('one')) {
-//             currentPlayer = ['two']     
-            
-//         }   else if (currentPlayer.includes('two')) {
-//             currentPlayer =['one']
-//         }
-//     }
-
-
-//     ////function for clicking each grid/cell of gameBoard 
-//     const clickCell = function() {
-//         ////if cell is already clicked on, return
-//         if (this.playerToken === 'X' || this.playerToken === 'O') {
-//             return 
-//         }
-
-//         ////adding token of player 
-//         if (currentPlayer.includes('one')) {
-//             this.playerToken = 'X'
-//             this.textContent = 'X'
-//         } else if (currentPlayer.includes('two')) {
-//             this.playerToken = 'O' 
-//             this.textContent = 'O'
-//         }
-
-
-//         ////toggle playerToggle after click
-//         playerToggle();
-
-//         ////check if there's a winner or if there is a tie
-
-//         console.log('butt');
-        
-
-        
-//     }
-
-
-    
-//     // const nextRoundValid = function() {
-//     //     for (let cell of )
-//     // }
-
-//     return {clickCell}
-    
-
-
-
-    
-
-
-// })();
