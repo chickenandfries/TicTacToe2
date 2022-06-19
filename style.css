@@ -22,32 +22,43 @@ body {
     margin-bottom: 1rem;
 }
 
-
 .pOne, .pTwo {
     color: white;
 }
 
-.gameBoardDisplay {
+/* .gameBoardDisplay {
     width: 600px;
     height: 600px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;    
+    border-top: none;
+} */
 
+.gameBoardDisplay {
+    width: 600px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+    /* gets rid of outer borders */
+    overflow: hidden;
+    
 }
 
-
-
-.cellDisplay {
-    border: solid 2px white;
+.gameBoardDisplay div {
+    outline: 2px solid white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 100px;
     color: white;
-
-
+    
 }
+
+
+
 
 .hiddenDisplay {
     background-color: #d6d6d7;
