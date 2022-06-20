@@ -57,11 +57,7 @@ const Game = (function() {
     })    
 
 
-
-    console.log(playerOne);
-    console.log(playerTwo);
-    
-    
+  
 
     
 
@@ -156,31 +152,29 @@ const Game = (function() {
                 if (this.id === x.cellNum) {
                     console.log(`adding token for playerOne`);
                     
-                    x.playerToken = playerOne.playerToken
-                    
-                    
-                    console.log(x.playerToken ==='X');
+                    x.playerToken = playerOne.playerToken;
+                    this.textContent = x.playerToken;                    
+                 
                 }
             }
-            this.textContent = playerOne.playerToken;
+            // this.textContent = playerOne.playerToken;
             
            
         } else if (currentPlayer.includes('two')) {
             for (let x of GameBoard.gameBoard) {
                 if (this.id === x.cellNum) {
-                    console.log(`adding token for playerTwo`);
-                    
-                    x.playerToken = playerTwo.playerToken
+                    console.log(`adding token for playerTwo`);                   
+                    x.playerToken = playerTwo.playerToken;
+                    this.textContent = x.playerToken;
                 }
             }
-            this.textContent = playerTwo.playerToken;
+            
         }
 
 
         ////toggle playerToggle after click
         playerToggle();
-        console.log(currentPlayer);
-
+      
     
         
 
@@ -367,15 +361,7 @@ const Game = (function() {
         
     }
 
-    ////making sure that even though Game is a IIFE Module, I can keep using testButton. But why does this work? 
-    const testButton = document.querySelector('.testButton')
 
-    const printButt = function() {
-        console.log('butt');
-        
-    }
-
-    testButton.addEventListener(`click`, printButt )
 
     return {}
       
@@ -385,19 +371,48 @@ const Game = (function() {
 
 
 
+
+
 /*QUESTIONS
 
 Background: factory function called PlayerFactory that makes players. 
 Module function called Game that is like the 'manager'. 
 
 
-1. point of having array in gameBoard? could have just used displayController (just work with .textContent to visual DOM elements )
+1. what is the reason for creating an array in GameBoard ? I could have just used the DisplayController module and worked with the visual 'divs' on the visual board in the DOM. why do I need a separate GameBoard array to save the 'state' of the game? 
 
-2. associated array from GameBoard with the visual 'divs' in my DOM by matching the 'id' of div to cellNum associated with GameBoard array. which means each time the cell is clicked my code loops through the GameBoard array. Is there a better / more efficient way? I don't know how intensive the loops are, but it just seems wasteful?
+2. I associated the array from GameBoard with the visual 'divs' in my DOM by matching the 'id' of my 'div' to the cellNum (number) of the objects in the array . which means each time each 'cell' or grid is clicked on my board, my code has to loop through the GameBoard array to find the matching pair. Is there a better / more efficient way to associate the array cell and the div? I don't know how power intensive the loops are, but it just seems kind of wasteful? 
 
-3. best way to set up restartGame? couldn't just bring in GameBoard and DisplayController because they only run once. ended up copying code over which doesn't seem right?
+3. what is the best way to set up the restartGame function? I couldn't re-use the GameBoard or the DisplayController modules because they only run once, as intended. so I ended up just copying the code from GameBoard and DisplayController over to restartGame, but that doesn't seem right. and TOP has stated that GameBoard and DisplayController should be modules that are only run once. 
 
-4. what should be 'hidden' in GameBoard module within Game? and what's ok to be visible within Game?
-    e.g. playerToggle
-    
+
 */
+
+
+
+//////reset() logic? 
+// const Game = (function() {
+
+//     const GameBoard = (function() {
+//         function reset() {
+//             //reset stuff
+//         }
+//         return {reset}
+
+//     })();
+
+//     const DisplayController = (function() {
+//         function reset() {
+//             //reset stuff
+//         }
+//         return {reset}
+
+//     })();
+
+//     const restartGame = function() {
+//         GameBoard.reset();
+//         DisplayController.reset();
+
+//     }
+
+// })();
